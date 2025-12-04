@@ -1,10 +1,21 @@
 package com.sgc.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "tumulo", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"setor", "fila", "numero"}) // [cite: 220] RN-004: ID único
+    @UniqueConstraint(columnNames = {"setor", "fila", "numero"})
 })
 public class Tumulo {
 
@@ -29,17 +40,15 @@ public class Tumulo {
     @Column(nullable = false)
     private EstadoTumulo estado;
 
-    // Relación N:1 con Proprietario [cite: 220]
     @ManyToOne
     @JoinColumn(name = "id_proprietario", nullable = false)
     private Proprietario proprietario;
 
-    // Relación 1:1 con Falecido
     @OneToOne(mappedBy = "tumulo")
     private Falecido falecido;
 
     public Tumulo() {
-        this.estado = EstadoTumulo.DISPONIVEL; // [cite: 218] RF-001: Estado inicial
+        this.estado = EstadoTumulo.DISPONIVEL;
     }
 
     public Tumulo(String setor, String fila, String numero, TipoTumulo tipo, Proprietario proprietario) {
@@ -51,7 +60,6 @@ public class Tumulo {
         this.estado = EstadoTumulo.DISPONIVEL;
     }
 
-    // Getters y Setters
     public int getIdTumulo() { return idTumulo; }
     public String getSetor() { return setor; }
     public String getFila() { return fila; }

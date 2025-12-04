@@ -1,8 +1,16 @@
 package com.sgc.model;
 
-import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "proprietario")
@@ -22,7 +30,6 @@ public class Proprietario {
     private String endereco;
     private String email;
 
-    // Relación 1:N con Tumulo [cite: 88]
     @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL)
     private List<Tumulo> tumulos = new ArrayList<>();
 
@@ -34,7 +41,6 @@ public class Proprietario {
         this.email = email;
     }
 
-    // Getters y Setters básicos
     public int getIdProprietario() { return idProprietario; }
     public String getNomeCompleto() { return nomeCompleto; }
     public String getCedula() { return cedula; }

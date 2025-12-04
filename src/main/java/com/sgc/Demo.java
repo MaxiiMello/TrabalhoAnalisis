@@ -1,9 +1,13 @@
 package com.sgc;
 
-import com.sgc.model.*;
-import com.sgc.service.CemiterioService;
 import java.util.Date;
 import java.util.Scanner;
+
+import com.sgc.model.Falecido;
+import com.sgc.model.Proprietario;
+import com.sgc.model.TipoTumulo;
+import com.sgc.model.Tumulo;
+import com.sgc.service.CemiterioService;
 
 public class Demo {
     private static CemiterioService service = new CemiterioService();
@@ -49,9 +53,9 @@ public class Demo {
         System.out.println("│ 4. Vincular Falecido a Túmulo       │");
         System.out.println("│ 5. Eliminar Túmulo                  │");
         System.out.println("│ ----------------------------------- │");
-        System.out.println("│ 6. 📋 Listar Túmulos                │");
-        System.out.println("│ 7. 📋 Listar Falecidos              │");
-        System.out.println("│ 8. 📋 Listar Proprietarios          │");
+        System.out.println("│ 6. 📋 Listar Túmulos                 │");
+        System.out.println("│ 7. 📋 Listar Falecidos               │");
+        System.out.println("│ 8. 📋 Listar Proprietarios           │");
         System.out.println("│ ----------------------------------- │");
         System.out.println("│ 9. Demo Completo Automático         │");
         System.out.println("│ 0. Salir                            │");

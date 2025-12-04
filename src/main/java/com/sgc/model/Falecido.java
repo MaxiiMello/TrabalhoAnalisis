@@ -1,7 +1,17 @@
 package com.sgc.model;
 
-import jakarta.persistence.*;
 import java.util.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "falecido")
@@ -37,7 +47,6 @@ public class Falecido {
         this.dataFalecimento = dataFalecimento;
     }
 
-    // Getters y Setters
     public int getIdFalecido() { return idFalecido; }
     public String getNomeCompleto() { return nomeCompleto; }
     public String getCedula() { return cedula; }

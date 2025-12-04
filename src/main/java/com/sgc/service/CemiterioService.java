@@ -1,13 +1,16 @@
 package com.sgc.service;
 
-import com.sgc.model.*;
-import com.sgc.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.sgc.model.EstadoTumulo;
+import com.sgc.model.Falecido;
+import com.sgc.model.Proprietario;
+import com.sgc.model.Tumulo;
+import com.sgc.util.HibernateUtil;
+
 public class CemiterioService {
 
-    // Método para guardar datos genéricos (Create)
     public void salvar(Object objeto) {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -20,7 +23,6 @@ public class CemiterioService {
         }
     }
 
-    // Lógica principal: Vincular Falecido a Túmulo (Update con reglas)
     public void vincularFalecido(int idFalecido, int idTumulo) {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -30,17 +32,13 @@ public class CemiterioService {
             Tumulo tumulo = session.get(Tumulo.class, idTumulo);
 
             if (falecido != null && tumulo != null) {
-                // RN-005: Validar estado
                 if (tumulo.getEstado() == EstadoTumulo.OCUPADO) {
                     System.out.println("ERROR: El túmulo ya está ocupado.");
                     return;
                 }
 
-                // Realizar vínculo
                 falecido.setTumulo(tumulo);
                 tumulo.setFalecido(falecido);
-
-                // RN-006: Actualizar estado automáticamente
                 tumulo.setEstado(EstadoTumulo.OCUPADO);
 
                 session.merge(falecido);
@@ -54,7 +52,6 @@ public class CemiterioService {
         }
     }
 
-    // READ: Listar todos los Túmulos
     public void listarTumulos() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             var tumulos = session.createQuery("FROM Tumulo", Tumulo.class).list();
@@ -77,7 +74,6 @@ public class CemiterioService {
         }
     }
 
-    // READ: Listar todos los Falecidos
     public void listarFalecidos() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             var falecidos = session.createQuery("FROM Falecido", Falecido.class).list();
@@ -101,7 +97,6 @@ public class CemiterioService {
         }
     }
 
-    // READ: Listar todos los Proprietarios
     public void listarProprietarios() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             var proprietarios = session.createQuery("FROM Proprietario", Proprietario.class).list();
@@ -123,7 +118,6 @@ public class CemiterioService {
         }
     }
 
-    // READ: Obtener Proprietario por ID
     public Proprietario obtenerProprietario(int id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.get(Proprietario.class, id);
@@ -133,8 +127,6 @@ public class CemiterioService {
         }
     }
 
-    // Método que faltaba: Excluir Túmulo (Delete con reglas)
-    // Implementa RN-002: Una parcela con estado Ocupado no puede ser excluida
     public void excluirTumulo(int idTumulo) {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -142,7 +134,6 @@ public class CemiterioService {
             Tumulo t = session.get(Tumulo.class, idTumulo);
             
             if (t != null) {
-                // Validación RN-002
                 if (t.getEstado() == EstadoTumulo.OCUPADO) {
                     System.out.println("⚠️ ACCIÓN DENEGADA (RN-002): No se puede borrar una parcela OCUPADA.");
                 } else {
